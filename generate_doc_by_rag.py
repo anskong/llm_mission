@@ -24,6 +24,7 @@ from operator import itemgetter
 from langchain_community.vectorstores import FAISS
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 
 # 환경변수 읽어오기
@@ -38,17 +39,10 @@ huggingface_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 contents = [
   {"title":"사업개요 - 추진배경","question":"""
    바레인 사업의 추진배경은?
-   (답변 예시) 
-    1. 추진배경1
-      (1) 추진배경2222
-      (2) 추진배경3333
-    2. 추진배경2
-      (1) 추진배경4444
-      (2) 추진배경5555
-   1"""},
-  # {"title":"사업개요 - 추진목표","question":"바레인 사업의 추진목표는?"},
-  # {"title":"사업개요 - 추진배경","question":"바레인 사업의 추진배경은?"},
-  # {"title":"사업개요 - 추진배경","question":"바레인 사업의 추진배경은?"},
+   """},
+  {"title":"사업개요 - 추진목표","question":"바레인 사업의 추진목표는?"},
+  {"title":"제안요청사항 - 요구사항 총괄","question":"요구사항 총괄표를 작성해 주세요"},
+  {"title":"제안요청사항 - 요구사항 목록","question":"요구사항 목록표를 작성해 주세요"},
   # {"title":"사업개요 - 추진배경","question":"바레인 사업의 추진배경은?"},
 ]
 
@@ -102,8 +96,16 @@ def main():
   print(f"문서를 chunk 분할한 수 :::: {len(splits)}")
 
   # Vector Embedding 및 Retreiver 인스턴스 생성
-  embedding = OpenAIEmbeddings(model="text-embedding-3-small", openai_api_key=openai_key)
-  vectorstore = FAISS.from_documents(splits, embedding)
+  # embedding = OpenAIEmbeddings(model="text-embedding-3-small", openai_api_key=openai_key)
+
+
+  #HuggingfaceEmbedding 함수로 Open source 임베딩 모델 로드
+  model_name = "jhgan/ko-sroberta-multitask"
+  ko_embedding= HuggingFaceEmbeddings(
+      model_name=model_name
+  )
+
+  vectorstore = FAISS.from_documents(splits, ko_embedding)
   # vector store 검색시 유사문서는 5개만 반환하라
   retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
