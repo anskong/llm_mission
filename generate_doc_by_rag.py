@@ -35,7 +35,16 @@ from langchain_community.document_loaders import (
     PyPDFLoader,
     UnstructuredPowerPointLoader,
     UnstructuredExcelLoader,
+    UnstructuredWordDocumentLoader
 )
+
+# from langchain_community.document_loaders import (
+#     PyPDFLoader,
+#     MSWordLoader,
+#     MSPowerPointLoader,
+#     UnstructuredExcelLoader,
+# )
+
 from langchain_openai import OpenAIEmbeddings
 
 # 환경변수 읽어오기
@@ -248,9 +257,9 @@ def select_multiple_files():
     root = Tk()
     root.withdraw()
     file_paths = filedialog.askopenfilenames(
-        title="PDF, PPTX, XLSX 파일 선택",
+        title="PDF, PPTX, XLSX,DOCX 파일 선택",
         filetypes=[
-            ("Supported files", "*.pdf *.pptx *.xlsx"),
+            ("Supported files", "*.pdf *.pptx *.xlsx *.docx"),
             ("All files", "*.*"),
         ],
     )
@@ -265,8 +274,11 @@ def load_documents(file_paths):
             loader = PyPDFLoader(path)
         elif ext == ".pptx":
             loader = UnstructuredPowerPointLoader(path)
+            # loader = MSWordLoader(path)
         elif ext == ".xlsx":
             loader = UnstructuredExcelLoader(path)
+        elif ext == ".docx":
+            loader = UnstructuredWordDocumentLoader(path)
         else:
             print(f"⚠️ 지원하지 않는 형식: {ext}")
             continue
@@ -323,7 +335,6 @@ def main_workflow():
         print("❗파일이 선택되지 않았습니다.")
         exit()
     print(f"📂 선택된 파일: {file_paths}")
-
 
     documents = load_documents(file_paths)
     print(f"📄 총 로딩된 문서 수: {len(documents)}")

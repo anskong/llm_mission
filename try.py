@@ -70,7 +70,7 @@ def embed_and_store(documents, persist_path="faiss_index"):
     return vectorstore
 
 # ✅ 전체 워크플로우
-if __name__ == "__main__":
+if __name__ == "__main__mm":
     file_paths = select_multiple_files()
     if not file_paths:
         print("❗파일이 선택되지 않았습니다.")
@@ -119,4 +119,6 @@ def open_file():
     return
     
 if __name__ == "__main__":
-  open_file()
+    import langchain_community.document_loaders as loaders
+    print(dir(loaders))
+#   open_file()
