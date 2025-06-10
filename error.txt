@@ -1,0 +1,131 @@
+embedding_model_name ::: jhgan/ko-sroberta-multitask
+C:\ai_dev\llm_mission\generate_doc_by_rag.py:309: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  ko_embedding= HuggingFaceEmbeddings(
+Traceback (most recent call last):
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connection.py", line 741, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connection.py", line 920, in _ssl_wrap_socket_and_match_hostname        
+    ssl_sock = ssl_wrap_socket(
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\util\ssl_.py", line 480, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\util\ssl_.py", line 524, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\ssl.py", line 517, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\ssl.py", line 1104, in _create
+    self.do_handshake()
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\ssl.py", line 1382, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1006)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connectionpool.py", line 488, in _make_request
+    raise new_e
+urllib3.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1006)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='cdn-lfs.hf.co', port=443): Max retries exceeded with url: /jhgan/ko-sroberta-multitask/e0143341f5e4653b7ece14cf0685f5fbf5b68a3926beed43754a498947c3bd77?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27pytorch_model.bin%3B+filename%3D%22pytorch_model.bin%22%3B&response-content-type=application%2Foctet-stream&Expires=1749534719&Policy=eyJTdGF0ZW1lbnQiOlt7IkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc0OTUzNDcxOX19LCJSZXNvdXJjZSI6Imh0dHBzOi8vY2RuLWxmcy5oZi5jby9qaGdhbi9rby1zcm9iZXJ0YS1tdWx0aXRhc2svZTAxNDMzNDFmNWU0NjUzYjdlY2UxNGNmMDY4NWY1ZmJmNWI2OGEzOTI2YmVlZDQzNzU0YTQ5ODk0N2MzYmQ3Nz9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPSomcmVzcG9uc2UtY29udGVudC10eXBlPSoifV19&Signature=rSE1Jyg4KTiMg9QOoqo~sbLqLQvq2CHI1-0vvs8qUmRXUCqGJ-BQl4~eOorkMwyjJfsltd9cxrNxdCGn3L5ZYSApZHHbIKDUdtdIMD8nHaUove8PsHKIEiqKNB~1EZiyB7JLz5Qgoexmrp2-FUbp6OfN-U-inNAUBhn5NCT3ULrXJC5S8uQjTN0faQWwhmZOWRXzuUrgfdA4xLXXXe9ZjrDXkW4QezQx4SIIO2CkzI5FR9H4AU6f1AjjA7JRhkhfd4sCICQgAhFluMrWUmgV6EHQ-wrDUDLRpomHPCa6dvxxUnmgvyOadHZUshCvXhSH57bKNK3WXHYWPIym7A2vYQ__&Key-Pair-Id=K3RPWS32NSSJCE (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1006)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ai_dev\llm_mission\generate_doc_by_rag.py", line 418, in <module>
+    main_workflow()
+  File "C:\ai_dev\llm_mission\generate_doc_by_rag.py", line 375, in main_workflow
+    vectorstore = embed_and_store(split_docs)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ai_dev\llm_mission\generate_doc_by_rag.py", line 309, in embed_and_store
+    ko_embedding= HuggingFaceEmbeddings(
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\langchain_core\_api\deprecation.py", line 224, in warn_if_direct_instance       
+    return wrapped(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\langchain_community\embeddings\huggingface.py", line 92, in __init__
+    self.client = sentence_transformers.SentenceTransformer(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\sentence_transformers\SentenceTransformer.py", line 309, in __init__
+    modules, self.module_kwargs = self._load_sbert_model(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\sentence_transformers\SentenceTransformer.py", line 1808, in _load_sbert_model  
+    module = module_class(model_name_or_path, cache_dir=cache_folder, backend=self.backend, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\sentence_transformers\models\Transformer.py", line 81, in __init__
+    self._load_model(model_name_or_path, config, cache_dir, backend, is_peft_model, **model_args)
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\sentence_transformers\models\Transformer.py", line 181, in _load_model
+    self.auto_model = AutoModel.from_pretrained(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\transformers\modeling_utils.py", line 309, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\transformers\modeling_utils.py", line 4422, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\transformers\modeling_utils.py", line 1053, in _get_resolved_checkpoint_files   
+    resolved_archive_file = cached_file(
+                            ^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\transformers\utils\hub.py", line 312, in cached_file
+    file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\transformers\utils\hub.py", line 557, in cached_files
+    raise e
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\transformers\utils\hub.py", line 470, in cached_files
+    hf_hub_download(
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\file_download.py", line 1008, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\file_download.py", line 1161, in _hf_hub_download_to_cache_dir  
+    _download_to_tmp_and_move(
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\file_download.py", line 1725, in _download_to_tmp_and_move      
+    http_get(
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\file_download.py", line 420, in http_get
+    r = _request_wrapper(
+        ^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\file_download.py", line 309, in _request_wrapper
+    response = http_backoff(method=method, url=url, **params, retry_on_exceptions=(), retry_on_status_codes=(429,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\utils\_http.py", line 310, in http_backoff
+    response = session.request(method=method, url=url, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\utils\_http.py", line 96, in send
+    return super().send(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\72418\AppData\Local\Programs\Python\Python311\Lib\site-packages\requests\adapters.py", line 698, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: (MaxRetryError("HTTPSConnectionPool(host='cdn-lfs.hf.co', port=443): Max retries exceeded with url: /jhgan/ko-sroberta-multitask/e0143341f5e4653b7ece14cf0685f5fbf5b68a3926beed43754a498947c3bd77?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27pytorch_model.bin%3B+filename%3D%22pytorch_model.bin%22%3B&response-content-type=application%2Foctet-stream&Expires=1749534719&Policy=eyJTdGF0ZW1lbnQiOlt7IkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc0OTUzNDcxOX19LCJSZXNvdXJjZSI6Imh0dHBzOi8vY2RuLWxmcy5oZi5jby9qaGdhbi9rby1zcm9iZXJ0YS1tdWx0aXRhc2svZTAxNDMzNDFmNWU0NjUzYjdlY2UxNGNmMDY4NWY1ZmJmNWI2OGEzOTI2YmVlZDQzNzU0YTQ5ODk0N2MzYmQ3Nz9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPSomcmVzcG9uc2UtY29udGVudC10eXBlPSoifV19&Signature=rSE1Jyg4KTiMg9QOoqo~sbLqLQvq2CHI1-0vvs8qUmRXUCqGJ-BQl4~eOorkMwyjJfsltd9cxrNxdCGn3L5ZYSApZHHbIKDUdtdIMD8nHaUove8PsHKIEiqKNB~1EZiyB7JLz5Qgoexmrp2-FUbp6OfN-U-inNAUBhn5NCT3ULrXJC5S8uQjTN0faQWwhmZOWRXzuUrgfdA4xLXXXe9ZjrDXkW4QezQx4SIIO2CkzI5FR9H4AU6f1AjjA7JRhkhfd4sCICQgAhFluMrWUmgV6EHQ-wrDUDLRpomHPCa6dvxxUnmgvyOadHZUshCvXhSH57bKNK3WXHYWPIym7A2vYQ__&Key-Pair-Id=K3RPWS32NSSJCE (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1006)')))"), '(Request ID: 472cfc4b-1219-44f6-b386-7bec6ea124f2)')
