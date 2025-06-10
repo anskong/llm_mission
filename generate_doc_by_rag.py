@@ -1,11 +1,12 @@
 ### RAG Langchain 기반으로 산출물 문서를 읽어들인 후 Vector Embbeding의 Retreiver  LLM에  전달하여 
 #   신규 문서 목차 별 내용을 LLM을 통해 생성하고  새로운 문서를 생성한다. 
 
-# pip install langchain-core langchain-community
-# pip install faiss-cpu
+# pip install langchain-core langchain-community langchain-text-splitters langchain-chroma langchain-openai  faiss-cpu
+# pip install langchain-huggingface sentence-transformers
 # pip install openai  # or use other embedding models
 # pip install python-pptx openpyxl PyMuPDF
 # pip install "unstructured[all-docs]"  # for PPT/Excel loader
+
 
 # 1. 환경변수 읽기
 import os
@@ -30,6 +31,8 @@ from operator import itemgetter
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 from langchain_community.embeddings import HuggingFaceEmbeddings
+# from langchain_huggingface import HuggingFaceEmbeddings
+# from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 
 from langchain_community.document_loaders import (
     PyPDFLoader,
@@ -56,15 +59,18 @@ anthropic_key = os.getenv("ANTHROPIC_API_KEY")
 huggingface_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
 # ppt 생성 할 목차 및 목차 별 질문들
-contents_temp = [
-  {"title":"사업개요 - 추진배경","question":"""
-   바레인 사업의 추진배경은?
-   """},
-  {"title":"사업개요 - 추진목표","question":"바레인 사업의 추진목표는?"},
-  {"title":"제안요청사항 - 요구사항 총괄","question":"요구사항 총괄표를 작성해 주세요"},
-  {"title":"제안요청사항 - 요구사항 목록","question":"요구사항 목록표를 작성해 주세요"},
-  # {"title":"사업개요 - 추진배경","question":"바레인 사업의 추진배경은?"},
-]
+# contents_temp = [
+#   {"title":"사업개요 - 추진배경","question":"""
+#    바레인 사업의 추진배경은?
+#    """},
+#   {"title":"사업개요 - 추진목표","question":"바레인 사업의 추진목표는?"},
+#   {"title":"제안요청사항 - 요구사항 총괄","question":"요구사항 총괄표를 작성해 주세요"},
+#   {"title":"제안요청사항 - 요구사항 목록","question":"요구사항 목록표를 작성해 주세요"},
+#   # {"title":"사업개요 - 추진배경","question":"바레인 사업의 추진배경은?"},
+# ]
+
+# embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+embedding_model_name = "jhgan/ko-sroberta-multitask"
 
 # [사용할 LLM 인스턴스 생성]
 
@@ -133,9 +139,10 @@ def main():
 
 
   #HuggingfaceEmbedding 함수로 Open source 임베딩 모델 로드
-  model_name = "jhgan/ko-sroberta-multitask"
+#   model_name = "jhgan/ko-sroberta-multitask"
+  
   ko_embedding= HuggingFaceEmbeddings(
-      model_name=model_name
+      model_name=embedding_model_name
   )
 
   vectorstore = FAISS.from_documents(splits, ko_embedding)
@@ -295,9 +302,12 @@ def split_documents(documents,chunk_size=1000, chunk_overlap=200):
 def embed_and_store(documents, persist_path="faiss_index"):
     # embeddings = OpenAIEmbeddings()  # OpenAI API 키 필요 (환경변수 OPENAI_API_KEY)
     
-    model_name = "jhgan/ko-sroberta-multitask"
+    # model_name = "jhgan/ko-sroberta-multitask"
+
+    print(f"embedding_model_name ::: {embedding_model_name}")
+
     ko_embedding= HuggingFaceEmbeddings(
-        model_name=model_name
+        model_name=embedding_model_name
     )
 
     vectorstore = FAISS.from_documents(documents, ko_embedding)
