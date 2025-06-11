@@ -9,3 +9,26 @@ https://huggingface.co/jhgan/ko-sroberta-multitask
 ko_embedding = HuggingFaceEmbeddings(
     model_name="C:/path/to/local/jhgan-ko-sroberta-multitask"
 )
+
+from langchain_huggingface import HuggingFaceEmbeddings
+
+ko_embedding = HuggingFaceEmbeddings(
+    model_name=r"C:\ai_dev\ko-sroberta-multitask"
+)
+
+pip install -U langchain-huggingface
+
+pip install -U sentence-transformers
+
+import os
+assert os.path.exists(r"C:\ai_dev\ko-sroberta-multitask")
+
+from langchain_huggingface import HuggingFaceEmbeddings
+
+ko_embedding = HuggingFaceEmbeddings(
+    model_name=r"C:\ai_dev\ko-sroberta-multitask"
+)
+
+embedding = ko_embedding.embed_query("안녕하세요, 임베딩 테스트입니다.")
+print(embedding[:10])  # 일부만 출력
+
