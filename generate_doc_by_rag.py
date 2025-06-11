@@ -30,8 +30,8 @@ from langchain_core.messages import SystemMessage,HumanMessage
 from operator import itemgetter
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
-from langchain_community.embeddings import HuggingFaceEmbeddings
-# from langchain_huggingface import HuggingFaceEmbeddings
+# from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 # from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 
 from langchain_community.document_loaders import (
@@ -70,7 +70,8 @@ huggingface_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 # ]
 
 # embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
-embedding_model_name = "jhgan/ko-sroberta-multitask"
+# embedding_model_name = "jhgan/ko-sroberta-multitask"
+embedding_model_name = r"C:\ai_dev\ko-sroberta-multitask"
 
 # [사용할 LLM 인스턴스 생성]
 
