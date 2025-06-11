@@ -365,7 +365,11 @@ def main_workflow():
     output_path = select_output_path()
 
     documents = load_documents(file_paths)
+
     print(f"📄 총 로딩된 문서 수: {len(documents)}")
+    print(f"📜 로딩 된 문서의 내용")
+    for doc in documents:
+        print(f" - {doc.metadata.get('source', 'Unknown Source')}: {doc.page_content[:2000]}...")
 
     split_docs = split_documents(documents, chunk_size=1000, chunk_overlap=200)
     if not split_docs:
@@ -379,14 +383,14 @@ def main_workflow():
     # 프롬프트 템플릿
     prompt_template = ChatPromptTemplate.from_messages([
         SystemMessage("""
-                    당신은 건강보험 업무 전문가이며 문서 작성에도 탁월합니다.
-                    제공되는 컨텍스트를 최대한 활용하여 바레인 제안서 ppt를 세부적으로 작성해 주세요
+                    당신은 건강보험 업무 전문가이면서 전략수립 전문가로서 문서 작성에도 탁월합니다.
+                    제공되는 컨텍스트를 최대한 활용하여 ppt 양식에 맞게 최대한 세부적으로 작성해 주세요
                     """),
         MessagesPlaceholder("chat_history"),
         HumanMessagePromptTemplate.from_template(
             """
             주어진 컨텍스트에 따라 다음 질문에 답하십시오.\n컨텍스트：{context}\n질문：{question}
-            질문에 대한 답변은 마크다운 형식으로 자세하게 정리하고 질문에 표함 된 예시는 답변 형식에 참조하세요
+            질문에 대한 답변은 어떤 사용자라도 이해하기 쉽게 ppt 형식으로 자세하게 정리하고 질문에 표함 된 예시는 답변 형식에 참조하세요
             """
         )
     ])
