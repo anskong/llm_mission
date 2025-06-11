@@ -85,111 +85,111 @@ llm = ChatOpenAI(
 # 최종 결과내용을 저장할 ppt 명칭 및 경로
 output_path = None
 
-def main():
-  # response = llm.invoke("너는 누구니?")
-  # print("llm connection test ::: ",response.content)
+# def main():
+#   # response = llm.invoke("너는 누구니?")
+#   # print("llm connection test ::: ",response.content)
   
-  # 파일 선택기 열기
-  root = Tk()
-  root.withdraw()
+#   # 파일 선택기 열기
+#   root = Tk()
+#   root.withdraw()
 
-  contents_path = filedialog.askopenfilename(title="TXT 파일 선택", filetypes=[("TXT files", "*.txt")])
+#   contents_path = filedialog.askopenfilename(title="TXT 파일 선택", filetypes=[("TXT files", "*.txt")])
 
-  if not contents_path:
-    messagebox.showwarning("경고", "목차 파일을 선택하지 않았습니다.")
-    return
-  else :
-    print(f"선택한 파일 명 :::: {contents_path}")
-    # contents_path = "contents.txt"
-    with open(contents_path, 'r', encoding='utf-8') as file:
-        global contents
-        contents = json.load(file)
-        print(f"목차 내용 ::: {contents}")
+#   if not contents_path:
+#     messagebox.showwarning("경고", "목차 파일을 선택하지 않았습니다.")
+#     return
+#   else :
+#     print(f"선택한 파일 명 :::: {contents_path}")
+#     # contents_path = "contents.txt"
+#     with open(contents_path, 'r', encoding='utf-8') as file:
+#         global contents
+#         contents = json.load(file)
+#         print(f"목차 내용 ::: {contents}")
 
 
-  pdf_path = filedialog.askopenfilename(title="PDF 파일 선택", filetypes=[("PDF files", "*.pdf")])
+#   pdf_path = filedialog.askopenfilename(title="PDF 파일 선택", filetypes=[("PDF files", "*.pdf")])
 
-  if not pdf_path:
-    messagebox.showwarning("경고", "PDF 파일을 선택하지 않았습니다.")
-    return
-  else :
-    print(f"선택한 파일 명 :::: {pdf_path}")
+#   if not pdf_path:
+#     messagebox.showwarning("경고", "PDF 파일을 선택하지 않았습니다.")
+#     return
+#   else :
+#     print(f"선택한 파일 명 :::: {pdf_path}")
   
 
-  output_path = filedialog.asksaveasfilename(defaultextension=".pptx",
-                                               filetypes=[("PowerPoint files", "*.pptx")],
-                                               title="저장할 PPT 파일 이름")
-  if not output_path:
-        messagebox.showwarning("경고", "저장 파일명을 입력하지 않았습니다.")
-        return
-  else :
-      print(f"저장 할 파일 명 first :::: {output_path}")
+#   output_path = filedialog.asksaveasfilename(defaultextension=".pptx",
+#                                                filetypes=[("PowerPoint files", "*.pptx")],
+#                                                title="저장할 PPT 파일 이름")
+#   if not output_path:
+#         messagebox.showwarning("경고", "저장 파일명을 입력하지 않았습니다.")
+#         return
+#   else :
+#       print(f"저장 할 파일 명 first :::: {output_path}")
 
 
-  # PDF 문서 로딩 및 chunk 분할
-  loader = PyPDFLoader(pdf_path)
-  pages = loader.load()
-  print(f"문서 로딩한 pages 수 :::: {len(pages)}")
+#   # PDF 문서 로딩 및 chunk 분할
+#   loader = PyPDFLoader(pdf_path)
+#   pages = loader.load()
+#   print(f"문서 로딩한 pages 수 :::: {len(pages)}")
 
-  splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=300)
-  splits = splitter.split_documents(pages)
-  print(f"문서를 chunk 분할한 수 :::: {len(splits)}")
+#   splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=300)
+#   splits = splitter.split_documents(pages)
+#   print(f"문서를 chunk 분할한 수 :::: {len(splits)}")
 
-  # Vector Embedding 및 Retreiver 인스턴스 생성
-  # embedding = OpenAIEmbeddings(model="text-embedding-3-small", openai_api_key=openai_key)
+#   # Vector Embedding 및 Retreiver 인스턴스 생성
+#   # embedding = OpenAIEmbeddings(model="text-embedding-3-small", openai_api_key=openai_key)
 
 
-  #HuggingfaceEmbedding 함수로 Open source 임베딩 모델 로드
-#   model_name = "jhgan/ko-sroberta-multitask"
+#   #HuggingfaceEmbedding 함수로 Open source 임베딩 모델 로드
+# #   model_name = "jhgan/ko-sroberta-multitask"
   
-  ko_embedding= HuggingFaceEmbeddings(
-      model_name=embedding_model_name
-  )
+#   ko_embedding= HuggingFaceEmbeddings(
+#       model_name=embedding_model_name
+#   )
 
-  vectorstore = FAISS.from_documents(splits, ko_embedding)
-  # vector store 검색시 유사문서는 5개만 반환하라
-  retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+#   vectorstore = FAISS.from_documents(splits, ko_embedding)
+#   # vector store 검색시 유사문서는 5개만 반환하라
+#   retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
-  # 프롬프트 템플릿
-  prompt_template = ChatPromptTemplate.from_messages([
-    SystemMessage("""
-                  당신은 건강보험 업무 전문가이며 문서 작성에도 탁월합니다.
-                  제공되는 컨텍스트를 최대한 활용하여 바레인 제안서 ppt를 세부적으로 작성해 주세요
-                  """),
-    MessagesPlaceholder("chat_history"),
-    HumanMessagePromptTemplate.from_template(
-        """
-        주어진 컨텍스트에 따라 다음 질문에 답하십시오.\n컨텍스트：{context}\n질문：{question}
-        질문에 대한 답변은 마크다운 형식으로 자세하게 정리하고 질문에 표함 된 예시는 답변 형식에 참조하세요
-        """
-    )
-  ])
-  # 출력 파서 정의
-  parser = StrOutputParser()
+#   # 프롬프트 템플릿
+#   prompt_template = ChatPromptTemplate.from_messages([
+#     SystemMessage("""
+#                   당신은 건강보험 업무 전문가이며 문서 작성에도 탁월합니다.
+#                   제공되는 컨텍스트를 최대한 활용하여 바레인 제안서 ppt를 세부적으로 작성해 주세요
+#                   """),
+#     MessagesPlaceholder("chat_history"),
+#     HumanMessagePromptTemplate.from_template(
+#         """
+#         주어진 컨텍스트에 따라 다음 질문에 답하십시오.\n컨텍스트：{context}\n질문：{question}
+#         질문에 대한 답변은 마크다운 형식으로 자세하게 정리하고 질문에 표함 된 예시는 답변 형식에 참조하세요
+#         """
+#     )
+#   ])
+#   # 출력 파서 정의
+#   parser = StrOutputParser()
   
-  # 11) LCEL 기반 RAG 체인 구성
-  rag_chain = (
-    {
-        "context": itemgetter("question") | retriever | format_docs,
-        "question": itemgetter("question"),
-        "chat_history": itemgetter("chat_history"),
-    }
-    | prompt_template
-    | llm
-    | parser
-  )
+#   # 11) LCEL 기반 RAG 체인 구성
+#   rag_chain = (
+#     {
+#         "context": itemgetter("question") | retriever | format_docs,
+#         "question": itemgetter("question"),
+#         "chat_history": itemgetter("chat_history"),
+#     }
+#     | prompt_template
+#     | llm
+#     | parser
+#   )
 
-  # 12) 체인 실행
-  history = []
-  # question = "바레인 사업 추진 목표는?"
-  # answer = rag_chain.invoke({"question": question, "chat_history": history})
+#   # 12) 체인 실행
+#   history = []
+#   # question = "바레인 사업 추진 목표는?"
+#   # answer = rag_chain.invoke({"question": question, "chat_history": history})
 
-  # 13) 체인 실행 및 문서 생성
-  generate_doc_from_llm(rag_chain,history,output_path)
+#   # 13) 체인 실행 및 문서 생성
+#   generate_doc_from_llm(rag_chain,history,output_path)
 
-  # 13) 결과 출력
-  # print(f"\n🧠 질문: {question}")
-  # print("📝 답변:\n", answer)
+#   # 13) 결과 출력
+#   # print(f"\n🧠 질문: {question}")
+#   # print("📝 답변:\n", answer)
 
 
 def format_docs(docs):
