@@ -417,7 +417,21 @@ def main_workflow():
     # 13) 체인 실행 및 문서 생성
     generate_doc_from_llm(rag_chain,history,output_path)
 
-
+def save_vectorstore(persist_path="faiss_index",docs:List[Document]=None):
+    if not docs:
+        print("❗문서가 제공되지 않았습니다.")
+        return None
+    
+    if not os.path.exists(persist_path):
+        vectorstore = FAISS.from_documents(docs, HuggingFaceEmbeddings(model_name=embedding_model_name))
+    else : 
+        vectorstore = FAISS.load_local(persist_path, HuggingFaceEmbeddings(model_name=embedding_model_name))
+        vectorstore.add_documents(docs)
+    
+    vectorstore.save_local(persist_path)
+    
+    print(f"✅ 벡터스토어 로드 완료: {persist_path}")
+    return vectorstore
 
 if __name__ == "__main__":
     main_workflow()
