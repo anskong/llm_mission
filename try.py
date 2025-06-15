@@ -118,6 +118,18 @@ def open_file():
 
     return
     
-if __name__ == "__main__":
+if __name__ == "__main__1":
     import langchain_community.document_loaders as loaders
 #   open_file()
+
+if __name__ == "__main__":
+    from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+    llm = ChatOpenAI(
+        openai_api_base="http://localhost:1234/v1",
+        openai_api_key="lm-studio",
+        model_name="exaone-3.5-2.4b-instruct",
+        temperature=0.7,
+    )
+
+    result = llm.invoke("너는 누구니??")
+    print(result.content)
