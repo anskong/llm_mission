@@ -417,7 +417,7 @@ def main_workflow():
     # 13) 체인 실행 및 문서 생성
     generate_doc_from_llm(rag_chain,history,output_path)
 
-def save_vectorstore(persist_path="faiss_index",docs:List[Document]=None):
+def save_vectorstore(persist_path="faiss_index",docs:list[Document]=None):
     if not docs:
         print("❗문서가 제공되지 않았습니다.")
         return None
